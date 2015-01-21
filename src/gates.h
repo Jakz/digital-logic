@@ -17,7 +17,23 @@ public:
   {
     
   }
-  
+};
+
+class OrGate : public FixedDevice<2,1>
+{
+private:
+  static constexpr Status truthTable[static_cast<int>(Status::COUNT)][static_cast<int>(Status::COUNT)] =
+  {
+    { Status::LOW, Status::HIGH, Status::LOW },
+    { Status::HIGH, Status::HIGH, Status::HIGH },
+    { Status::LOW, Status::HIGH, Status::LOW}
+  };
+
+public:
+  OrGate() : FixedDevice(truthTable)
+  {
+    
+  }
 };
 
 #endif

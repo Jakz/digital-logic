@@ -10,21 +10,30 @@
 
 #include "gates.h"
 
+std::ostream& operator<< (std::ostream& stream, const Status& status) {
+  if (status == Status::LOW) stream << "LOW";
+  else if (status == Status::HIGH) stream << "HIGH";
+  else if (status == Status::FLOATING) stream << "FLOATING";
+  return stream;
+}
+
 int main(int argc, const char * argv[])
 {
   PinInput *input1 = new PinInput(Status::LOW);
-  PinInput *input2 = new PinInput(Status::HIGH);
+  PinInput *input2 = new PinInput(Status::LOW);
   PinOutput *output = new PinOutput();
   
-  AndGate *gate = new AndGate();
+  OrGate *gate = new OrGate();
   
-  Device::link(input1, 0, gate, 0);
-  Device::link(input2, 0, gate, 1);
-  Device::link(gate, 0, output, 0);
+  Link::create(input1, gate, 0, 0);
+  Link::create(input2, gate, 0, 1);
+  Link::create(gate, output, 0, 0);
   
+  input1->propagate();
+  input2->propagate();
   
-  // insert code here...
-  std::cout << "Hello, World!\n";
-    return 0;
+  std::cout << output->getStatus() << std::endl;
+  
+  return 0;
 }
 
