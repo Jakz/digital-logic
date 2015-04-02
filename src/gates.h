@@ -3,6 +3,8 @@
 
 #include "device.h"
 
+
+
 class AndGate : public FixedDevice<2,1>
 {
 public:
